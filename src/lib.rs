@@ -12,6 +12,6 @@ pub fn code() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let mut sess = Session::new()?;
     let ssh_channel = sess.channel_session()?;
 
-    ssh_connection("127.0.0.1:22", "root", "password", sess);
+    ssh_connection("127.0.0.1:2l2", "root", "password", sess);
     worker(commands, ssh_channel)
 }
