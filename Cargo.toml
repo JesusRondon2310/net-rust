@@ -1,0 +1,8 @@
+[package]
+name = "rust_code"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ssh2 = "0.9.5"
+dotenv = "0.15.0"
