@@ -13,7 +13,6 @@ struct Data {
 
 pub async fn specs(commands: &str, session: Session) -> Result<(), Box<dyn Error>> {
     let seconds = Duration::from_secs(5);
-    // crear coneccion + crear tabla
     let pool = postgres_connection()
         .await
         .expect("error to connecting to db");
@@ -41,7 +40,6 @@ pub async fn specs(commands: &str, session: Session) -> Result<(), Box<dyn Error
             timestamp: now,
         };
 
-        // agregar records a db
         add_column(&pool, &my_system)
             .await
             .expect("error to connecting to db");

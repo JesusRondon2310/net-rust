@@ -1,0 +1,58 @@
+services:
+  # CONTAINER INITS
+  container_a:
+    container_name: container_a
+    build: ./rust_code
+    networks:
+      custom_net:
+        ipv4_address: 10.5.0.2
+
+  ubuntu:
+    container_name: ubuntu
+    image: ubuntu:22.04
+    command: >
+      /usr/sbin/sshd -D
+    networks:
+      custom_net:
+        ipv4_address: 10.5.0.3
+
+  # container_c:
+  #   container_name: container_c
+  #   build: ./python-code
+  #   networks:
+  #     custom_net:
+  #       ipv4_address: 10.5.0.4
+
+  db:
+    container_name: postgres_db
+    image: postgres:15.2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: main_db
+    ports:
+      - "5432:5432"
+    networks:
+      custom_net:
+        ipv4_address: 10.5.0.5
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - ./adu_db.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  custom_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
+
+      # apt-get update && apt-get install -y openssh-server openssh-client && configs:
+      # mkdir /var/run/sshd && echo 'root:password' | chpasswd &&
+      # sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin
+      # yes/' /etc/ssh/sshd_config build: ./container
