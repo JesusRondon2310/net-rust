@@ -1,4 +1,5 @@
 use ssh2::Session;
+use std::error::Error;
 use std::net::TcpStream;
 
 pub fn ssh_connection(
@@ -6,7 +7,7 @@ pub fn ssh_connection(
     username: &str,
     password: &str,
     mut sesssion: Session,
-) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+) -> Result<(), Box<dyn Error>> {
     let tcp: TcpStream = match TcpStream::connect(addr) {
         Ok(d) => d,
         Err(e) => {
